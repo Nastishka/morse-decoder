@@ -37,8 +37,28 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
+const BINARY_CODES_MAP = {
+    '10' : '.',
+    '11' : '-'
+}
+
+const SPACE = '**********';
+
+const EMPTY_BYNARY_CODE = '00';
+
 function decode(expr) {
-    // write your solution here
+    let decodedStr = [];
+    let words = expr.split(SPACE);
+    words.forEach(word => {
+        let letters = word.match(/.{1,10}/g);
+        letters.forEach(letter => {
+            let binaryCodes = letter.match(/.{1,2}/g).filter(item => item !== EMPTY_BYNARY_CODE);
+            let morzeSigns = Array.from(binaryCodes, code => BINARY_CODES_MAP[code]).join('');
+            decodedStr.push(MORSE_TABLE[morzeSigns])
+        });
+        decodedStr.push(' ');
+    });
+    return decodedStr.join('').trim();
 }
 
 module.exports = {
